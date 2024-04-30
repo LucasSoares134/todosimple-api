@@ -73,3 +73,4 @@ public class User {
 }
 
 //SAPORRA CRIA NO BANCO MSM KK
+//Lombok gera todos os get e setters por isso foi removido.
