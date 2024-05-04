@@ -2,7 +2,7 @@ package com.Lucassoares.todosimple.services;
 
 import java.util.Optional;
 
-import javax.management.RuntimeErrorException;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,9 +25,9 @@ public class UserService {
 public User findById(Long id){//crio o metodo como eu quiser
 Optional/*vou receber um dado, mas não coloca nulo não, mas pode deixar vazio*/<User> user = this.userRepository.findById(id);
     return user.orElseThrow(() -> new RuntimeException(//exeção enquanto ta rodando--- ()-> deixa colocar uma função dentro de uma função
-   "Usuário não encontrado! Id: "+ id + ", Tipo: " + User.class.getName()
+   "Usuário não encontrado! Id: "+ id + ", Tipo: " + User.class.getName()));
    //eu retorno se tiver preenchido, se tiver vazio, eu trato uma exceção;
-));
+
 }
 
 @Transactional//salvar no banco--ou salva tudo ou salva nada... Cria um cashe tbm... mas pesa um pouco
