@@ -2,7 +2,7 @@ package com.Lucassoares.todosimple.services;
 
 import java.util.Optional;
 
-
+import javax.management.RuntimeErrorException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,7 +24,7 @@ public class UserService {
 
 public User findById(Long id){//crio o metodo como eu quiser
 Optional/*vou receber um dado, mas não coloca nulo não, mas pode deixar vazio*/<User> user = this.userRepository.findById(id);
-    return user.orElseThrow(() -> new RuntimeException(//exeção enquanto ta rodando
+    return user.orElseThrow(() -> new RuntimeException(//exeção enquanto ta rodando--- ()-> deixa colocar uma função dentro de uma função
    "Usuário não encontrado! Id: "+ id + ", Tipo: " + User.class.getName()
    //eu retorno se tiver preenchido, se tiver vazio, eu trato uma exceção;
 ));
@@ -38,9 +38,23 @@ Optional/*vou receber um dado, mas não coloca nulo não, mas pode deixar vazio*
         return obj;
 
     }
-
+@Transactional
+    public User update(User obj){
+        User newObj = findById(obj.getId());
+        newObj.setPassword(obj.getPassword());
+        return this.userRepository.save(newObj);
+    }
   
-    
+public void delete(Long id){
+    findById(id);//reutilizilação da 1 função pra buscar e retornar erro
+    try {
+        this.userRepository.deleteById(id);
+    } catch (Exception e) {
+     throw new RuntimeException("Não é possivel excluir, pois há entidades relacionadas!");//SEMPRE USUÁRIO QUE TEM MOVIMENTAÇÃO, NÃO PODE SER DELETADO!!!!
+    }
+
+
+}
     
 }
 
