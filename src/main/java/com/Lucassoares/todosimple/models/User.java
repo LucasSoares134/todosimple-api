@@ -1,5 +1,6 @@
 package com.Lucassoares.todosimple.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 //mport lombok.Data; // Importa a anotação @Data do Lombok
 
@@ -82,7 +83,7 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-
+    @JsonIgnore//Não retora todas as tasks do usuário
     public List<Task> getTasks() {
         return this.tasks;
     }
