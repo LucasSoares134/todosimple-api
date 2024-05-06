@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.Lucassoares.todosimple.models.User;
-import com.Lucassoares.todosimple.repositories.TaskRepository;
+
 import com.Lucassoares.todosimple.repositories.UserRepository;
 
 
@@ -19,8 +19,7 @@ public class UserService {
     @Autowired//utiliza as anotações do springboot para instancia e fazer as conexões entre as classes
     private UserRepository userRepository;
 
-    @Autowired
-    private TaskRepository taskRepository;
+
 
 public User findById(Long id){//crio o metodo como eu quiser
 Optional/*vou receber um dado, mas não coloca nulo não, mas pode deixar vazio*/<User> user = this.userRepository.findById(id);
@@ -34,8 +33,7 @@ Optional/*vou receber um dado, mas não coloca nulo não, mas pode deixar vazio*
     public User create(User obj){
         obj.setId(null);//zera pra passar um novo, pra n dar merda
         obj = this.userRepository.save(obj);//salva 
-        this.taskRepository.saveAll(obj.getTasks());
-        return obj;
+             return obj;
 
     }
 @Transactional

@@ -1,13 +1,13 @@
 package com.Lucassoares.todosimple.services;
 
-
-
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.config.Task;
 import org.springframework.stereotype.Service;
 
+import com.Lucassoares.todosimple.models.Task;
 import com.Lucassoares.todosimple.models.User;
 import com.Lucassoares.todosimple.repositories.TaskRepository;
 
@@ -19,11 +19,38 @@ public class TaskService {
     @Autowired
     private UserService userService;
 
-    public Task findById(Long id){
-   Optional/*vou receber um dado, mas não coloca nulo não, mas pode deixar vazio*/<User> user = this.userRepository.findById(id);
-    return user.orElseThrow(() -> new RuntimeException(//exeção enquanto ta rodando--- ()-> deixa colocar uma função dentro de uma função
-   "Usuário não encontrado! Id: "+ id + ", Tipo: " + User.class.getName()));
-   //eu retorno se tiver preenchido, se tiver vazio, eu trato uma exceção;
+public Task findById(Long id){
+    Optional<Task> task = this.taskRepository.findById(id);
+    return task.orElseThrow(() -> new RuntimeException(
+"Tarefa não encontrada! Id: " + id + ", Tipo:" + Task.class.getName()));
+}
+@Transactional
+public Task create(Task obj){
+    User user = this.userService.findById(obj.getUser().getId());
+    obj.setId(null);
+    obj.setUser(user);
+    obj = this.taskRepository.save(obj);
+    return obj;
+    
+    
+}
 
+@Transactional
+public Task update(Task obj){
+Task newObj = findById(obj.getId());
+newObj.setDescription(obj.getDescription());
+return this.taskRepository.save(newObj);
+
+}
+
+
+public void delete (Long id){
+    findById(id);
+    try {
+        this.taskRepository.deleteById(id);        
+    } catch (Exception e) {
+     throw new RuntimeException("Não é possivel excluir, pois há entidades relacionadas!");
     }
+}
+
 }
