@@ -14,16 +14,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import com.Lucassoares.todosimple.models.User;
 import com.Lucassoares.todosimple.models.User.CreateUser;
 import com.Lucassoares.todosimple.models.User.UpdateUser;
 import com.Lucassoares.todosimple.services.UserService;
 
-import net.bytebuddy.asm.Advice.Return;
+
 
 @RestController
 @RequestMapping("/user")// já deixa como padrão, para essa rota
